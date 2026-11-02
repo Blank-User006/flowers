@@ -1,0 +1,26 @@
+html,body{
+    margin:0;
+    height:100%;
+    background: #040404;
+    overflow: hidden;
+}
+canvas{
+    display:block;
+    width:100vw;
+    height:100vh;
+    cursor:pointer;
+}
+#message{
+    position: fixed;
+    left:0;
+    right:0;
+    bottom:5vh;
+    text-align:center;
+    font: italic 30px Georgia, serif;
+    color: #fbe7b8;
+    opacity:0;
+    transition: opacity 2s;
+}
+#message.show{
+    opacity:0.9;
+}
