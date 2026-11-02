@@ -13,7 +13,7 @@ function resize() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);   // sharper letters on high-res screens
   canvas.width = W * dpr;
   canvas.height = H * dpr;
-  fontSize = 10;
+  fontSize = W < 600 ? 7 : 10;      // smaller letters on phones = more detail
   cellW = fontSize * 0.6;
   cellH = fontSize;
   cols = Math.ceil(W / cellW);
@@ -21,8 +21,8 @@ function resize() {
   tiny.width = cols;
   tiny.height = rows;
   // bouquet size + position
-  S = Math.min(W * 0.47 / 62, H * 0.62 / 90);   // leaves room at the top for the bee
-  tie = { x: W / 2, y: H * 0.74 };
+  S = Math.min(W * 0.5 / 56, H * 0.62 / 90);    // fits the width on phones, leaves room for the bee
+  tie = { x: W / 2, y: Math.min(H * 0.74, H / 2 + 30 * S) };   // keeps the bouquet centred on tall screens
   base = { x: W / 2, y: tie.y + 14 * S };
 }
 window.addEventListener('resize', resize);
