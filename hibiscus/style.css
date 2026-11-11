@@ -1,0 +1,25 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+}
+#title {
+  position: fixed;
+  top: 7vh;
+  left: 8vw;
+  font-family: Georgia, serif;
+  color: #f4eef2;
+  opacity: 0;
+  transition: opacity 2s;
+  pointer-events: none;
+}
+#title.show { opacity: 0.85; }
+#title .name { font-size: 12px; letter-spacing: 0.35em; }
+#title .sub  { font-size: 10px; letter-spacing: 0.15em; color: #8d8790; margin-top: 6px; }
