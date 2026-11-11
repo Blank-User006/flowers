@@ -1,0 +1,28 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #060406;
+  overflow: hidden;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+}
+.corner {
+  position: fixed;
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #d9cfd4;
+  opacity: 0.9;
+  pointer-events: none;
+}
+.tl { top: 5vh; left: 6vw; }
+.tr { top: 5vh; right: 6vw; text-align: right; }
+.bl { bottom: 5vh; left: 6vw; }
+.br { bottom: 5vh; right: 6vw; }
+.icon { top: 4.4vh; left: 50%; transform: translateX(-50%); font-size: 22px; font-weight: 400; color: #e8a6c4; }
+.clock { margin-top: 18px; font-weight: 400; color: #8e8389; letter-spacing: 0.05em; line-height: 1.5; }
