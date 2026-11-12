@@ -22,6 +22,12 @@ function resize() {
   U = Math.min(W * 0.8, H * 0.56) / 2 * SIZE;              // SIZE makes everything smaller or bigger
   const narrow = W < 600;
   rose = { x: narrow ? W * 0.5 : W * 0.5, y: H * (narrow ? 0.47 : 0.49), R: U * (narrow ? 0.85 : 0.74) };
+  // phones: make sure the "object (2)" words always end ABOVE the back button
+  if (narrow) {
+    const buttonTop = H * 0.96 - 56;                        // where the "back to Bloom" button starts (with a little gap)
+    const wordsEnd = rose.y + rose.R * 1.45 + 56;           // where the 4 lines of words end
+    if (wordsEnd > buttonTop) rose.R = Math.max(40, (buttonTop - 56 - rose.y) / 1.45);
+  }
 }
 window.addEventListener('resize', () => { resize(); cacheReady = false; });
 resize();
