@@ -22,7 +22,7 @@ function resize() {
   glowCanvas.height = Math.ceil(H / 4);
   F = Math.min(H / 18.5, W / 16.5) * CAM_DIST;    // zoom: fits both flowers on any screen
   cx = W / 2;
-  cy = H * 0.5;
+  cy = H * 0.43;
 }
 window.addEventListener('resize', resize);
 resize();
