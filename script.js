@@ -397,6 +397,10 @@ function paint(instant) {
     if (instant) leaf.style.transition = 'none';
     leaf.classList.toggle('flipped', isTurned);
     leaf.style.zIndex = isTurned ? i + 1 : leaves.length - i + 1;
+    // pages far away from the open page are hidden, so phones only have to draw 2-3 pages
+    const far = Math.abs(i - turned) > 2;
+    if (!far || instant) leaf.classList.toggle('far', far);
+    else setTimeout(() => { if (Math.abs(i - turned) > 2) leaf.classList.add('far'); }, 1200);
     if (instant) { leaf.offsetHeight; leaf.style.transition = ''; }
   });
   book.classList.toggle('closed-front', turned === 0);

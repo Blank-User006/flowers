@@ -180,7 +180,6 @@ body {
 }
 .book.single .leaf { left: 0; width: 100%; }
 .leaf.flipped { transform: rotateY(-180deg); }
-.book.single .leaf.flipped { transform: rotateY(-160deg); opacity: 0; transition: transform 1s cubic-bezier(.6,.05,.3,1), opacity 0.6s 0.35s; pointer-events: none; }
 
 .face {
   position: absolute;
@@ -521,3 +520,21 @@ body {
    (stops the hidden photo on the back of a turned page from catching clicks) */
 .leaf.flipped > .face.front,
 .leaf:not(.flipped) > .face.back { pointer-events: none; }
+
+/* pages far away from the open page are not drawn at all (saves memory on iPhones) */
+.leaf.far { visibility: hidden; }
+
+/* phones: a simple flat page turn instead of a 3D one
+   (some iPhone browsers, like the one inside Instagram, glitch with 3D pages) */
+.book.single, .book.single .leaf { transform-style: flat; }
+.book.single .face.back { display: none; }
+.book.single .leaf.flipped {
+  transform: translateX(-40%) rotate(-5deg);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(.6, .05, .3, 1), opacity 0.5s;
+  pointer-events: none;
+}
+.book.single .deco > svg,
+.book.single .torn-strip,
+.book.single .torn-night,
+.book.single .ticket { filter: none; }
