@@ -397,12 +397,6 @@ body {
 .label i { display: block; font-family: 'Cormorant Garamond', serif; font-size: calc(var(--pw) * 0.034); margin-top: 3px; }
 
 /* ---------- phone tweaks ---------- */
-.single .polaroid { width: 44%; margin-top: calc(var(--ph) * 0.02); padding: 6px 6px 0; align-self: center; }
-.single .polaroid span { font-size: calc(var(--pw) * 0.052); padding: 3px 0 6px; }
-.single .page.text .big { font-size: calc(var(--pw) * 0.1); }
-.single .page.text .torn { height: calc(var(--ph) * 0.2); font-size: calc(var(--pw) * 0.05); margin-top: calc(var(--ph) * 0.02); padding: calc(var(--ph) * 0.014) calc(var(--pw) * 0.04); }
-.single .sticker { font-size: calc(var(--pw) * 0.055); }
-.single .list { font-size: calc(var(--pw) * 0.055); margin-top: 8px; }
 .single .note-tag { display: none; }
 
 /* ---------- scrapbook photo pages ---------- */
@@ -522,6 +516,7 @@ body {
 .dict b { font-size: 1.25em; }
 .dict i { color: #6b5d4a; }
 .dict em { font-style: italic; font-weight: 700; margin-right: 2px; }
+
 /* only the side of a page you can SEE can be clicked
    (stops the hidden photo on the back of a turned page from catching clicks) */
 .leaf.flipped > .face.front,

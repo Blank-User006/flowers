@@ -328,17 +328,24 @@ function build() {
     html += sheet(platePage(FLOWERS[last], last, 2 + last * 2 + 1), endPage(), 'grid', 'lined');
     html += sheet('<div class="page"></div>', backCoverPage(), 'grid', 'backcover');
   } else {
+     // phone: the same book, one page at a time
     html += sheet(coverPage(), '', 'cover');
-    html += sheet(contentsPage(i => i + 2), '', 'lined');
-    FLOWERS.forEach((f, i) => { html += sheet(phonePage(f, i, i + 2), '', 'grid'); flowerStart.push(i + 2); });
+    html += sheet(contentsPage(i => 2 + i * 2), '', 'lined');
+    html += sheet(notePage(), '', 'grid');
+    FLOWERS.forEach((f, i) => {
+      flowerStart.push(3 + i * 2);                       // the flower's notes page…
+      html += sheet(textPage(f, i, 2 + i * 2), '', 'lined');
+      html += sheet(platePage(f, i, 3 + i * 2), '', 'grid');   // …then its scrapbook photo page
+    });
     html += sheet(endPage(), '', 'lined');
+    html += sheet(backCoverPage(), '', 'backcover');
   }
   book.innerHTML = html + '<div class="rings">' + '<i></i>'.repeat(6) + '</div>';
   book.classList.toggle('single', single);
   leaves = [...book.querySelectorAll('.leaf')];
   turned = Math.min(turned, maxTurn());
   if (firstBuild) { loadPage(); firstBuild = false; }     // reopen on the page you left
-  document.getElementById('count').textContent = `${FLOWERS.length} flowers · ${single ? leaves.length : (FLOWERS.length * 2 + 2)} pages`;
+  document.getElementById('count').textContent = `${FLOWERS.length} flowers · ${FLOWERS.length * 2 + 2} pages`;
   size();
   fitNotes();
   paint(true);
@@ -367,7 +374,7 @@ const maxTurn = () => single ? leaves.length - 1 : leaves.length;
 function size() {
   const availW = window.innerWidth * (single ? 0.9 : 0.84);
   const availH = window.innerHeight - (single ? 250 : 240);    // room for the title, buttons and reminder
-  const ratio = single ? 1.62 : 1.36;
+  const ratio =1.36;
   let pw = single ? availW : availW / 2;
   let ph = pw * ratio;
   if (ph > availH) { ph = availH; pw = ph / ratio; }
@@ -407,13 +414,15 @@ function paint(instant) {
 
 function describe() {
   if (turned === 0) return ['cover', 'a field guide of moving flowers.'];
-  if (!single && turned === leaves.length) return ['back cover', 'see you in the next bloom.'];
-  const k = flowerStart.indexOf(turned);
-  if (k >= 0) return [FLOWERS[k].name.toLowerCase(), FLOWERS[k].reminder];
+  if (turned === maxTurn()) return ['back cover', 'see you in the next bloom.'];
   if (turned === 1) return ['contents', 'every flower here was grown in code.'];
+  if (single && turned === 2) return ['a note', 'turn the pages to meet them.'];
+  for (let k = 0; k < FLOWERS.length; k++) {
+    // on phones a flower has two pages (notes, then photo); on laptops one spread
+    if (turned === flowerStart[k] || (single && turned === flowerStart[k] + 1)) return [FLOWERS[k].name.toLowerCase(), FLOWERS[k].reminder];
+  }
   return ['the end', 'more flowers are still growing.'];
 }
-
 function go(target) {
   target = Math.max(0, Math.min(maxTurn(), target));
   if (target === turned) return;
