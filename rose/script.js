@@ -8,6 +8,7 @@ const glowCanvas = document.createElement('canvas');      // a small copy used f
 const gctx = glowCanvas.getContext('2d');
 
 let W, H, dpr, U, rose;
+const SIZE = 0.8;                                          // 1 = old size, 0.8 = two sizes smaller
 
 function resize() {
   W = window.innerWidth;
@@ -18,9 +19,9 @@ function resize() {
   glowCanvas.width = Math.ceil(canvas.width / 4);
   glowCanvas.height = Math.ceil(canvas.height / 4);
   // U = one "unit" of size, so the whole poster scales with the screen
-  U = Math.min(W * 0.8, H * 0.56) / 2;
+  U = Math.min(W * 0.8, H * 0.56) / 2 * SIZE;              // SIZE makes everything smaller or bigger
   const narrow = W < 600;
-  rose = { x: narrow ? W * 0.5 : W * 0.5, y: H * (narrow ? 0.52 : 0.55), R: U * (narrow ? 0.85 : 0.74) };
+  rose = { x: narrow ? W * 0.5 : W * 0.5, y: H * (narrow ? 0.47 : 0.49), R: U * (narrow ? 0.85 : 0.74) };
 }
 window.addEventListener('resize', () => { resize(); cacheReady = false; });
 resize();
@@ -187,7 +188,7 @@ for (let n = 0; n < 750; n++) {
 
 // the bee stays in one place: above the rose, on the left
 function updateBee() {
-  beePos = { x: Math.max(U * 0.45, rose.x - rose.R * 1.05), y: Math.max(H * 0.2, rose.y - rose.R * 1.3) };
+  beePos = { x: Math.max(U * 0.45, rose.x - rose.R * 1.05), y: Math.max(H * 0.15, rose.y - rose.R * 1.3) };
 }
 
 // a soft glowing blob: bright in the middle, fading out
@@ -278,7 +279,7 @@ function drawBee(time) {
 // =====================================================================
 // 5. THE POSTER LAYER: callout boxes, typed notes, drifting symbols
 // =====================================================================
-const FONT = "12px 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace";
+const FONT = "10px 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace";
 const SYMBOLS = ' .:-+=*#%';
 const glyphs = [];
 for (let i = 0; i < 160; i++) {
@@ -306,7 +307,7 @@ function callout(box, labelX, labelY, lines, p, time) {
     const cy = labelY > box.y + box.h ? box.y + box.h : box.y;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
-    const ex = labelX < box.x ? labelX + 80 : labelX - 8;
+    const ex = labelX < box.x ? labelX + 66 : labelX - 7;
     ctx.lineTo(lerp(cx, ex, lp), lerp(cy, labelY - 4, lp));
     ctx.stroke();
   }
@@ -315,7 +316,7 @@ function callout(box, labelX, labelY, lines, p, time) {
   lines.forEach((ln, k) => {
     const q = clamp(p * 2.5 - 1 - k * 0.25);
     ctx.fillStyle = k === 0 ? `rgba(240,230,235,${0.9 * a})` : `rgba(170,155,165,${0.85 * a})`;
-    ctx.fillText(typed(ln, q) + (q > 0 && q < 1 && Math.floor(time * 4) % 2 ? '▍' : ''), labelX, labelY + k * 17);
+    ctx.fillText(typed(ln, q) + (q > 0 && q < 1 && Math.floor(time * 4) % 2 ? '▍' : ''), labelX, labelY + k * 14);
   });
 }
 
@@ -329,18 +330,18 @@ function drawPoster(t, time) {
     ctx.font = FONT;
     for (const s of glyphs) {
       const x = rose.x + Math.cos(s.ang) * rose.R * s.rad * 1.15;
-      const y = rose.y + s.row * 6 + Math.sin(s.ang) * rose.R * s.rad * 1.1;
+      const y = rose.y + s.row * 5 + Math.sin(s.ang) * rose.R * s.rad * 1.1;
       const flick = Math.sin(time * 2 + s.seed);
       const ch = SYMBOLS[Math.floor((flick * 0.5 + 0.5) * (SYMBOLS.length - 1))];
       ctx.fillStyle = `rgba(200,170,190,${0.3 * gl * (0.4 + 0.6 * Math.abs(flick))})`;
-      ctx.fillText(ch, Math.round(x / 8) * 8, Math.round(y / 15) * 15);
+      ctx.fillText(ch, Math.round(x / 7) * 7, Math.round(y / 12) * 12);
     }
   }
 
   // object (2): the rose
   const rb = { x: rose.x - rose.R * 1.12, y: rose.y - rose.R * 1.12, w: rose.R * 2.24, h: rose.R * 2.24 };
   const narrow = W < 600;
-  const rLabelX = narrow ? W * 0.5 : Math.min(W - 150, rose.x + rose.R * 1.5);          // phones: under the rose, laptops: to the right
+  const rLabelX = narrow ? W * 0.5 : Math.min(W - 125, rose.x + rose.R * 1.5);          // phones: under the rose, laptops: to the right
   const rLabelY = narrow ? rose.y + rose.R * 1.45 : rose.y + rose.R * 0.75;
   callout(rb, rLabelX, rLabelY, ['object (2)', 'rose.png', 'the nectar', 'is found'], (t - 0.8) / 3, time);
 
@@ -348,7 +349,7 @@ function drawPoster(t, time) {
   {
     const bs = U * 0.55;
     const bb = { x: beePos.x - bs * 0.55, y: beePos.y - bs * 0.6, w: bs * 1.1, h: bs * 1.05 };
-    callout(bb, bb.x + bb.w + 24, bb.y - 10, ['object (1)', 'bee.png', 'looking for', 'nectar'], (t - 1.8) / 3, time);
+    callout(bb, bb.x + bb.w + 20, bb.y - 8, ['object (1)', 'bee.png', 'looking for', 'nectar'], (t - 1.8) / 3, time);
   }
 }
 
