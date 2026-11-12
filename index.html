@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- top bar -->
+  <header class="bar">
+    <span>ANU.FLOWERBOOK</span>
+    <span id="clock"></span>
+  </header>
+
+  <!-- the title above the book -->
+  <div class="heading">
+    <h1>Bloom</h1>
+    <p id="count"></p>
+  </div>
+
+  <!-- the book: script.js fills it with pages -->
+  <main class="stage">
+    <div class="book" id="book"></div>
+  </main>
+
+  <!-- turn the pages -->
+  <nav class="controls">
+    <button id="prev" aria-label="previous page">‹</button>
+    <span id="pageNo"></span>
+    <button id="next" aria-label="next page">›</button>
+  </nav>
+
+  <!-- a little line under the book that changes with every page -->
+  <p class="reminder" id="reminder"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>

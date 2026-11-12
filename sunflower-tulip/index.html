@@ -3,11 +3,34 @@
 <head>  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Sunflower & Tulip</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <canvas id="screen"></canvas>
+      <!-- back to the menu -->
+  <a class="back" href="../">← back to Bloom</a>
+  <style>
+    .back {
+      position: fixed;
+      left: 50%;
+      bottom: 4vh;
+      transform: translateX(-50%);
+      z-index: 10;
+      padding: 9px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(10, 8, 9, 0.55);
+      color: rgba(240, 232, 236, 0.85);
+      font: 500 12px/1 'Inter', system-ui, sans-serif;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .back:hover { background: rgba(240, 232, 236, 0.9); color: #1a1214; border-color: transparent; }
+  </style>
     <script src="script.js"></script>
 </body>
 </html>
